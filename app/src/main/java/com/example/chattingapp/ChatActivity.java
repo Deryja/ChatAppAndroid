@@ -5,7 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Bundle;
-import android.view.View;
+import android.util.Log;
+
 
 import com.example.chattingapp.databinding.ActivityChatBinding;
 import com.google.firebase.auth.FirebaseAuth;
@@ -47,8 +48,14 @@ recieverRoom = recieverId+FirebaseAuth.getInstance().getUid();
 
 
 
+  Log.d("ChatActivity", "databaseReferenceSender: " + databaseReferenceSender.toString());
+  Log.d("ChatActivity", "databaseReferenceReciever: " + databaseReferenceReciever.toString());
+
+
+
+
 //Steg 12 mellom
-messageAdapter = new MessageAdapter(this);
+ messageAdapter = new MessageAdapter(this);
 binding.recycler.setAdapter(messageAdapter);
 binding.recycler.setLayoutManager(new LinearLayoutManager(this));
 //Steg 12 mellom
@@ -91,14 +98,11 @@ databaseReferenceSender.addValueEventListener(new ValueEventListener() {
 
 
 //Steg 12 under
-        binding.sendMessage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String message = binding.messageEd.getText().toString();
-                if (message.trim().length()>0){
-                    sendMessage(message);
+        binding.sendMessage.setOnClickListener(view -> {
+            String message = binding.messageEd.getText().toString();
+            if (message.trim().length()>0){
+                sendMessage(message);
 
-                }
             }
         });
 

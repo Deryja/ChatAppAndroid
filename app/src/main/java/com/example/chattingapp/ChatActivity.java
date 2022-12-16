@@ -18,7 +18,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.UUID;
 
-
 // Steg 9 --> Vi begynner med å legge til "send" ikon i drawable
 
 //Alt under er steg 9
@@ -41,60 +40,54 @@ public class ChatActivity extends AppCompatActivity {
 
         setContentView(binding.getRoot());
 
-recieverId = getIntent().getStringExtra("id");
+        recieverId = getIntent().getStringExtra("id");
 
-senderRoom = FirebaseAuth.getInstance().getUid()+recieverId;
-recieverRoom = recieverId+FirebaseAuth.getInstance().getUid();
+        senderRoom = FirebaseAuth.getInstance().getUid()+recieverId;
+        recieverRoom = recieverId+FirebaseAuth.getInstance().getUid();
 
 
-
-  Log.d("ChatActivity", "databaseReferenceSender: " + databaseReferenceSender.toString());
-  Log.d("ChatActivity", "databaseReferenceReciever: " + databaseReferenceReciever.toString());
 
 
 
 
 //Steg 12 mellom
- messageAdapter = new MessageAdapter(this);
-binding.recycler.setAdapter(messageAdapter);
-binding.recycler.setLayoutManager(new LinearLayoutManager(this));
+        messageAdapter = new MessageAdapter(this);
+        binding.recycler.setAdapter(messageAdapter);
+        binding.recycler.setLayoutManager(new LinearLayoutManager(this));
 //Steg 12 mellom
 
 
 
 
-
-databaseReferenceSender = FirebaseDatabase.getInstance().getReference("chats").child(senderRoom);
-databaseReferenceReciever = FirebaseDatabase.getInstance().getReference("chats").child(recieverRoom);
-
-
-databaseReferenceSender.addValueEventListener(new ValueEventListener() {
+        databaseReferenceSender = FirebaseDatabase.getInstance().getReference("chats").child(senderRoom);
+        databaseReferenceReciever = FirebaseDatabase.getInstance().getReference("chats").child(recieverRoom);
 
 
+        databaseReferenceSender.addValueEventListener(new ValueEventListener() {
 
-    @Override
-    public void onDataChange(@NonNull DataSnapshot snapshot) { //Nå går jeg til steg 10 --> lager ny java class MessageModel
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) { //Nå går jeg til steg 10 --> lager ny java class MessageModel
 
-     messageAdapter.clear(); //Steg 12
-        for (DataSnapshot dataSnapshot:snapshot.getChildren()){
+                messageAdapter.clear(); //Steg 12
+                for (DataSnapshot dataSnapshot:snapshot.getChildren()){
 
-        //Steg 11-->
-        MessageModel messageModel = dataSnapshot.getValue(MessageModel.class);
+                    //Steg 11-->
+                    MessageModel messageModel = dataSnapshot.getValue(MessageModel.class);
 //Nå går vi til layout og lager linerlayout fil som heter message_row
 //Etter det lager vi MessageAdapter class ved å kopiere og paste UserAdapter, for så å endre variabelen innevendig til samme navn
 
-            messageAdapter.add(messageModel); //Steg 12
+                    messageAdapter.add(messageModel); //Steg 12
 
-    }
+                }
 
-    }
+            }
 
-    @Override
-    public void onCancelled(@NonNull DatabaseError error) {
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
 
-    }
-});
+            }
+        });
 
 
 //Steg 12 under

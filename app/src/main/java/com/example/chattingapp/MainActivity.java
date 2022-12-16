@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Alt under er fortsettelse på steg 5
 databaseReference = FirebaseDatabase.getInstance().getReference("users");
+
 databaseReference.addValueEventListener(new ValueEventListener() {
 
 

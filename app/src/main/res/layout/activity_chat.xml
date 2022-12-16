@@ -15,7 +15,7 @@
         android:layout_above="@+id/sendMessageLayout"
         android:layout_alignParentTop="true"
         />
-     
+
      <RelativeLayout
 
 
@@ -32,7 +32,7 @@ android:padding="15dp"
              android:id="@+id/messageEd"
              android:layout_width="match_parent"
              android:layout_height="wrap_content"/>
-             
+
              <ImageView
                  android:id="@+id/sendMessage"
                  android:padding="15dp"

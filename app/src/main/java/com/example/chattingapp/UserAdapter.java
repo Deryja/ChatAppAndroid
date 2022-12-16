@@ -4,6 +4,7 @@ package com.example.chattingapp;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +12,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.RecyclerView.Adapter;
-import com.example.chattingapp.ChatActivity;
+
 
 
 import java.util.ArrayList;
@@ -41,13 +41,27 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder>{
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
+
+
+
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_row, parent, false);
         return new MyViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+
+        if (userModelList.isEmpty() || position >= userModelList.size()) {
+            Log.e("UserAdapter", "User model list is empty or position is out of bounds");
+            return;
+        }
+
+
+
+
         UserModel userModel = userModelList.get(position);
+
+
 
         // Use the Java Optional class to prevent a NullPointerException
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -62,16 +76,41 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder>{
                     .ifPresent(email -> holder.email.setText(email));
         }
 
+
+
+
+
+
+
         // Det som er mellom er steg 13
         holder.itemView.setOnClickListener(new View.OnClickListener() {
      @Override
      public void onClick(View view) {
-         if (userModel != null) {
+
+         //Dette er også fra chatGPT
+         if (context == null) {
+             Log.e("UserAdapter", "Context is null");
+             return;
+         }
+
+
+
+         if (userModel != null) { //Dette er også fra chatGPT
              String userId = userModel.getUserId();
-             if (userId != null) {
+             if (userId != null) { //Dette også
+
+                 Log.d("UserAdapter", "User clicked: userId=" + userId); //Dette også
+
+
+                 try{
                  Intent intent = new Intent(context, ChatActivity.class);
                  intent.putExtra("id", userId);
-                 context.startActivity(intent);
+                 context.startActivity(intent);}
+
+                 catch (Exception e){
+                     // Log the exception
+                     Log.e("UserAdapter", "Error starting ChatActivity", e);
+                 }
              }
          }
      }
